@@ -2,7 +2,9 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Account;
+import com.example.entity.User;
 import com.example.service.AdminService;
+import com.example.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ public class WebController {
     @Resource
     private AdminService adminService;
 
+    @Resource
+    private UserService userService;
 
     /**
      * 默认请求接口
@@ -28,8 +32,14 @@ public class WebController {
     @PostMapping("/login")
     public Result login(@RequestBody Account account) {
         Account ac = null;
-        if ("ADMIN".equals(account.getRole())) {
+        if ("管理员".equals(account.getRole())) {
             ac = adminService.login(account);
+        }
+        if ("普通用户".equals(account.getRole())) {
+            ac = userService.login(account);
+        }
+        if(ac == null){
+            return Result.error("登录失败,用户不存在");
         }
         return Result.success(ac);
     }
@@ -38,7 +48,14 @@ public class WebController {
      * 注册
      */
     @PostMapping("/register")
-    public Result register() {
+    public Result register(@RequestBody User user ) {
+        if (!user.getPassword().equals(user.getNewPassword())){
+            return Result.error("密码不一致");
+        }
+        if (user.getUsername() != null && user.getName() != null && user.getUsername().equals(user.getName())) {
+            return Result.error("用户名和姓名不能相同");
+        }
+        userService.add(user);
         return Result.success();
     }
 
@@ -47,8 +64,11 @@ public class WebController {
      */
     @PutMapping("/updatePassword")
     public Result updatePassword(@RequestBody Account account) {
-        if ("ADMIN".equals(account.getRole())) {
+        if ("管理员".equals(account.getRole())) {
             adminService.updatePassword(account);
+        }
+        if ("普通用户".equals(account.getRole())) {
+            userService.updatePassword(account);
         }
         return Result.success();
     }

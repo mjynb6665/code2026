@@ -30,7 +30,7 @@
     </div>
 
     <div class="card">
-      <el-pagination background layout="prev, pager, next" v-model:page-size="data.pageSize" v-model:current-page="data.pageNum" :total="data.total"/>
+      <el-pagination background layout="total, prev, pager, next" v-model:page-size="data.pageSize" v-model:current-page="data.pageNum" :total="data.total"/>
     </div>
 
     <el-dialog title="信息" width="30%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
@@ -41,7 +41,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="账号" prop="username">
-          <el-input :disabled="data.form.id" v-model="data.form.username" autocomplete="off" />
+          <el-input :disabled="data.form.id != undefined"  v-model="data.form.username" autocomplete="off" />
         </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="data.form.name" autocomplete="off" />

@@ -11,7 +11,8 @@
         </el-form-item>
         <el-form-item prop="role">
           <el-select size="large" style="width: 100%" v-model="data.form.role">
-            <el-option value="ADMIN" label="管理员"></el-option>
+            <el-option value="管理员" label="管理员"></el-option>
+            <el-option value="普通用户" label="普通用户"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -34,7 +35,7 @@
   import router from "@/router";
 
   const data = reactive({
-    form: { role: 'ADMIN' },
+    form: { role: '管理员' },
     rules: {
       username: [
         { required: true, message: '请输入账号', trigger: 'blur' },
@@ -55,8 +56,12 @@
         request.post('/login', data.form).then(res => {
           if (res.code === '200') {
             ElMessage.success("登录成功")
-            router.push('/manager/home')
             localStorage.setItem('system-user', JSON.stringify(res.data))
+            if (res.data.role === '管理员'){
+              router.push('/manager/home')
+            }else{
+              router.push('/front/home')
+            }
           } else {
             ElMessage.error(res.msg)
           }
