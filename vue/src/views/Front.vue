@@ -18,6 +18,7 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item @click="personal">个人中心</el-dropdown-item>
+            <el-dropdown-item @click="router.push('/front/password')">修改密码</el-dropdown-item>
             <el-dropdown-item @click="logout" >退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -27,7 +28,7 @@
   </div>
   </div>
 
-  <div style="background-color: #dddddd">
+  <div style="background-color: #dddddd ">
     <router-view @updateUser="updateUser"></router-view>
   </div>
 
