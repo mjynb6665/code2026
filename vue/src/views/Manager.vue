@@ -25,6 +25,19 @@
             <el-icon><HomeFilled /></el-icon>
             <span>系统首页</span>
           </el-menu-item>
+
+          <el-sub-menu index="info">
+            <template #title>
+              <el-icon><Memo /></el-icon>
+              <span>信息管理</span>
+            </template>
+            <el-menu-item index="/manager/category">
+              <el-icon><User /></el-icon>
+              <span>商品分类</span>
+            </el-menu-item>
+          </el-sub-menu>
+
+
           <el-sub-menu index="user">
             <template #title>
               <el-icon><User /></el-icon>
@@ -38,8 +51,8 @@
               <el-icon><User /></el-icon>
               <span>普通用户</span>
             </el-menu-item>
-
           </el-sub-menu>
+
           <el-menu-item index="/manager/person">
             <el-icon><User/></el-icon>
             <span>个人信息</span>
