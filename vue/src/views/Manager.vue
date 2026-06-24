@@ -39,6 +39,12 @@
               <el-icon><User /></el-icon>
               <span>商品信息</span>
             </el-menu-item>
+
+            <el-menu-item index="/manager/carousel">
+              <el-icon><User /></el-icon>
+              <span>轮播图信息管理</span>
+            </el-menu-item>
+
           </el-sub-menu>
 
 
