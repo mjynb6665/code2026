@@ -4,7 +4,7 @@
       <div style="flex: 1">
         <div style="padding-left: 20px; display: flex; align-items: center">
           <img src="@/assets/imgs/logo.png" alt="" style="width: 40px">
-          <div style="font-weight: bold; font-size: 24px; margin-left: 5px; color: #fff">小白做毕设2026</div>
+          <div style="font-weight: bold; font-size: 24px; margin-left: 5px; color: #fff">小白2026</div>
         </div>
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
@@ -34,6 +34,10 @@
             <el-menu-item index="/manager/category">
               <el-icon><User /></el-icon>
               <span>商品分类</span>
+            </el-menu-item>
+            <el-menu-item index="/manager/goods">
+              <el-icon><User /></el-icon>
+              <span>商品信息</span>
             </el-menu-item>
           </el-sub-menu>
 
