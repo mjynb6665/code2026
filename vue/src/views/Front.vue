@@ -28,10 +28,10 @@
   </div>
   </div>
 
-  <div style="background-color: #dddddd ">
+  <div style="background-color: #f8f8ff ">
     <router-view @updateUser="updateUser"></router-view>
   </div>
-
+  <Footer></Footer>
 </template>
 
 <script setup>
@@ -40,7 +40,7 @@ import {reactive} from "vue";
 import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 import {ElMessage} from "element-plus";
 import router from "../router";
-
+import Footer from "../components/Footer.vue";
 const data = reactive({
   user: JSON.parse(localStorage.getItem('system-user') || '{}')
 })

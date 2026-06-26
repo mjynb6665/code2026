@@ -21,6 +21,15 @@ public class Goods {
     /**分类ID */
     private Integer categoryId;
     private String categoryName;
+    private  String recommend;
+
+    public String getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(String recommend) {
+        this.recommend = recommend;
+    }
 
     public String getCategoryName() {
         return categoryName;

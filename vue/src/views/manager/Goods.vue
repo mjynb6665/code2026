@@ -37,6 +37,14 @@
             <span v-else>{{ scope.row.status || '-' }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column label="推荐状态">
+          <template #default="scope">
+            <el-switch @change="updateRecommend(scope.row)" v-model="scope.row.recommendActive "
+                       active-text="是" inactive-text="否"></el-switch>
+          </template>
+        </el-table-column>
+
         <el-table-column prop="views" label="浏览量"></el-table-column>
         <el-table-column prop="saleCount" label="销量"></el-table-column>
         <el-table-column prop="time" label="创建时间"></el-table-column>
@@ -51,7 +59,7 @@
     </div>
 
     <div class="card">
-      <el-pagination background layout="total, prev, pager, next" v-model:page-size="data.pageSize" v-model:current-page="data.pageNum" :total="data.total"/>
+      <el-pagination @current-change="load" background layout="total, prev, pager, next" v-model:page-size="data.pageSize" v-model:current-page="data.pageNum" :total="data.total"/>
     </div>
 
     <el-dialog title="商品信息" width="50%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
@@ -86,6 +94,15 @@
             <el-radio-button label="下架" value="下架"></el-radio-button>
           </el-radio-group>
         </el-form-item>
+
+        <el-form-item prop="recommend" label="推荐">
+          <el-radio-group v-model="data.form.recommend" placeholder="">
+            <el-radio-button label="否" value="否"></el-radio-button>
+            <el-radio-button label="是" value="是"></el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+
+
 
         <el-form-item prop="content" label="详情">
           <div style="border: 1px solid #ccc; width: 100%">
@@ -136,8 +153,8 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 const uploadUrl = import.meta.env.VITE_BASE_URL + '/files/upload'
 const formRef = ref()
 const data = reactive({
-  pageNum: 1,
-  pageSize: 10,
+  pageNum: 10,
+  pageSize: 2,
   total: 0,
   formVisible: false,
   form: {},
@@ -199,7 +216,11 @@ const view = (content) => {
   data.content = content
   data.viewVisible = true
 }
-
+const  updateRecommend=(row)=>{
+  data.form.id = row.id
+  data.form.recommend =row.recommendActive ? '是': '否';
+  update();
+}
 
 // 分页查询
 const load = () => {
@@ -212,13 +233,16 @@ const load = () => {
     }
   }).then(res => {
     data.tableData = res.data?.list
+    data.tableData.forEach(item => {
+      item.recommendActive = item.recommend === '是';
+    })
     data.total = res.data?.total
   })
 }
 load()
 // 新增
 const handleAdd = () => {
-  data.form = {status: '上架', price: 0}
+  data.form = {status: '上架', price: 0, recommend: '否'}
   data.formVisible = true
 }
 
@@ -226,6 +250,7 @@ const handleAdd = () => {
 const handleEdit = (row) => {
   data.form = JSON.parse(JSON.stringify(row))
   data.formVisible = true
+
 }
 
 // 新增保存
@@ -279,6 +304,7 @@ const handleDelete = (id) => {
 }
 
 // 重置
+
 const reset = () => {
     data.name = null,
         data.categoryId = null,
