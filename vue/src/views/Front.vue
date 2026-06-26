@@ -72,7 +72,8 @@ const data = reactive({
 
 const search = () => {
   if (data.goodsName) {
-    router.push('/front/goods/?name=' + data.goodsName)
+    router.push('/front/goods/?name=' + data.goodsName),
+        data.goodsName = null
   }
 
 }
