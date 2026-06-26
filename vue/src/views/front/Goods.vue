@@ -24,6 +24,9 @@
         <el-button type="primary" @click="load" style="height: 40px; margin-left: 5px">搜索</el-button>
       </div>
     </div>
+
+
+    <div v-if="data.total > 0">
     <el-row :gutter="20">
       <el-col :span="6" v-for="item in data.tableData" :key = "item.id">
         <div @click="router.push('/front/goodsDetail?id=' + item.id)" class="card goods-item" style="width: 100%; border-radius: 5px ; height: 350px; margin-bottom: 20px">
@@ -38,6 +41,11 @@
         </div>
       </el-col>
     </el-row>
+  </div>
+    <div v-else style="padding: 50px; text-align: center;color: #666">暂无数据</div>
+
+
+
     <div style="margin-top: 20px">
       <el-pagination style="background-color: white; width: fit-content; padding: 5px 10px; border-radius: 5px"
                      @current-change="load"
