@@ -154,7 +154,7 @@ const uploadUrl = import.meta.env.VITE_BASE_URL + '/files/upload'
 const formRef = ref()
 const data = reactive({
   pageNum: 10,
-  pageSize: 2,
+  pageSize: 6,
   total: 0,
   formVisible: false,
   form: {},
