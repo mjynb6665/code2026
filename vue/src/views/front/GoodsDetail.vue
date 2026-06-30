@@ -7,11 +7,14 @@
       <img :src="data.goods.img" alt="" style="width: 300px; height: 300px">
       <div style="flex: 1">
         <div style="display: flex; align-items: flex-start; grid-gap: 20px; margin-bottom: 10px">
-          <div style="font-size: 22px; font-weight: bold; line-height: 30px">
-            <el-tag style="margin-right: 5px; float: left; background-color: red; color: white" type="danger" v-if="data.goods.recommend === '是'">推荐</el-tag>
+          <div style="font-size: 22px; font-weight: bold; line-height: 30px; flex: 1">
+            <el-tag style="margin-right: 5px; float: left; background-color: red; color: white;" type="danger;" v-if="data.goods.recommend === '是'">推荐</el-tag>
             {{ data.goods.name }}</div>
-          <div style="width: 20%; cursor: pointer; color: #666">
+          <div style="width: 60px; cursor: pointer; color: #666" @click="addCollect" v-if="!data.userCollect ?. id">
             <el-icon style="position: relative; top: 3px" size="18"><Star /></el-icon>收藏
+          </div>
+          <div style="width: 100px; cursor: pointer; color: orange" @click="removeCollect" v-if="data.userCollect?.id">
+            <el-icon style="position: relative; top: 3px" size="18"><StarFilled /></el-icon>取消收藏
           </div>
         </div>
           <!--第二行-->
@@ -56,14 +59,57 @@
 import {reactive} from "vue";
 import router from "../../router";
 import request from "../../utils/request";
+import {ElMessage} from "element-plus";
 const data = reactive({
+  user: JSON.parse(localStorage.getItem('system-user') || '{}'),
   goods: {},
   num:1,
   current: '商品详情',
   id: router.currentRoute.value.query.id,
-
-  commentList: []
+  commentList: [],
+  userCollect: {},
 })
+//当前商品是否被当前登录的用户收藏过
+const loadCollect= () =>{
+  request.get('/collect/selectAll' , {
+    params: {
+      goodsId: data.id,
+      userId: data.user.id
+    }
+  }).then(res => {
+    if(res.data ?.length > 0){
+     data.userCollect = res.data[0]
+    }else {
+      data.userCollect = {}
+    }
+  })
+}
+loadCollect()
+
+
+const removeCollect = () =>{
+  request.delete('/collect/delete/' + data.userCollect.id).then(res => {
+    if(res.code === '200'){
+      ElMessage.success('取消成功');
+      loadCollect()
+    }else{
+      ElMessage.error(res.msg)
+    }
+
+  })
+}
+
+
+const addCollect=() =>{
+  request.post('/collect/add', {goodsId: data.id, userId:data.user.id }).then(res => {
+    if(res.code === '200'){
+      ElMessage.success('收藏成功');
+      loadCollect()
+    }else{
+      ElMessage.error(res.msg)
+    }
+  })
+}
 
 const load = () =>{
   request.get('/goods/selectById/' + data.id).then(res => {

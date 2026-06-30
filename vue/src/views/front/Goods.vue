@@ -46,7 +46,7 @@
 
 
 
-    <div style="margin-top: 20px">
+    <div style="margin-top: 20px" v-if="data.total > 0">
       <el-pagination style="background-color: white; width: fit-content; padding: 5px 10px; border-radius: 5px"
                      @current-change="load"
                      v-model:page-size="data.pageSize"

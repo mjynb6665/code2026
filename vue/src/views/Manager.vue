@@ -45,6 +45,11 @@
               <span>轮播图信息管理</span>
             </el-menu-item>
 
+            <el-menu-item index="/manager/collect">
+              <el-icon><User /></el-icon>
+              <span>用户收藏</span>
+            </el-menu-item>
+
           </el-sub-menu>
 
 
