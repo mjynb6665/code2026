@@ -18,6 +18,8 @@ const router = createRouter({
         {path: 'goods',component: () => import('@/views/manager/Goods.vue')},
         {path:'carousel',component: () => import('@/views/manager/Carousel.vue')},
         {path:'collect',component: () => import('@/views/manager/Collect.vue')},
+        {path:'recharge',component: () => import('@/views/manager/Recharge.vue')},
+
 
       ]
     },
@@ -31,7 +33,8 @@ const router = createRouter({
         { path: 'password', component: () => import('@/views/front/Password.vue')},
         { path: 'goods', component: () => import('@/views/front/Goods.vue')},
         {path: 'goodsDetail', component: () => import('@/views/front/GoodsDetail.vue')},
-        {path: 'userCollect', component: () => import('@/views/front/UserCollect.vue')}
+        {path: 'userCollect', component: () => import('@/views/front/UserCollect.vue')},
+        {path: 'userRecharge', component: () => import('@/views/front/userRecharge.vue')},
 
       ]
     },
