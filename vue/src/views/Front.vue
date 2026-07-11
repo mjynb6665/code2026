@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div >
   <div style="height: 60px; background-color: #2e3143; display: flex; align-items: center;">
     <div style="width: 20%">
       <div style="padding-left: 20px; display: flex; align-items: center">
@@ -16,6 +16,7 @@
                  mode="horizontal">
           <el-menu-item index="/front/home">首页</el-menu-item>
           <el-menu-item index="/front/goods">精选商品</el-menu-item>
+          <el-menu-item index="/front/cart">购物车</el-menu-item>
         </el-menu>
       </div>
         <div style="width: fit-content" v-if="router.currentRoute.value.path !== '/front/goods'">

@@ -66,6 +66,7 @@ const data = reactive({
     tableData:[],
     pageNum: 1,
     pageSize: 8,
+    status:"上架",
     total: 0,
     categoryId: null,
     categoryList:[],

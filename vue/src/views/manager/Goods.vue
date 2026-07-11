@@ -153,7 +153,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 const uploadUrl = import.meta.env.VITE_BASE_URL + '/files/upload'
 const formRef = ref()
 const data = reactive({
-  pageNum: 10,
+  pageNum: 1,
   pageSize: 6,
   total: 0,
   formVisible: false,

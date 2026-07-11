@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+﻿import {createRouter, createWebHistory} from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +35,7 @@ const router = createRouter({
         {path: 'goodsDetail', component: () => import('@/views/front/GoodsDetail.vue')},
         {path: 'userCollect', component: () => import('@/views/front/UserCollect.vue')},
         {path: 'userRecharge', component: () => import('@/views/front/userRecharge.vue')},
+        {path: 'cart', component: () => import('@/views/front/Cart.vue')},
 
       ]
     },

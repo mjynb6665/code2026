@@ -26,7 +26,7 @@
         <div style="margin-bottom: 20px ;padding: 10px; background-color: #e8e4e4; border-radius: 5px; line-height: 25px; text-align: justify">{{data.goods.description}}</div>
         <div style="margin-bottom: 20px">
           <el-input-number :min ="1" v-model="data.num" style="width: 150px; height: 40px"></el-input-number>
-          <el-button type="danger" style="height: 40px; margin-left: 20px">加入购物车</el-button>
+          <el-button @click="addCart" type="danger" style="height: 40px; margin-left: 20px" >加入购物车</el-button>
           <el-button type="danger" style="height: 40px; margin-left: 20px">立即购买</el-button>
         </div>
           <div style="mairgin-top: 20px; color: #666">校园小卖部售卖的商品，由小卖部客服人员会及时处理，请放心购买</div>
@@ -86,6 +86,16 @@ const loadCollect= () =>{
 }
 loadCollect()
 
+
+const addCart = () =>{
+  request.post('/cart/add', {goodsId: data.id, userId: data.user.id, num: data.num}).then(res => {
+    if(res.code === '200'){
+      ElMessage.success('加入购物车成功');
+    }else{
+      ElMessage.error(res.msg)
+    }
+  })
+}
 
 const removeCollect = () =>{
   request.delete('/collect/delete/' + data.userCollect.id).then(res => {
