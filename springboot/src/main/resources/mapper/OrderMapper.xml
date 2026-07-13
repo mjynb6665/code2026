@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.OrderMapper">
+
+    <select id="selectAll" resultType="com.example.entity.Order">
+        select `order`.*, `user`.name as userName from `order`
+        left join `user` on `order`.user_id = `user`.id
+        <where>
+            <if test="userId != null"> and `order`.user_id = #{userId}</if>
+            <if test="orderNo != null"> and `order`.order_no like concat('%', #{orderNo}, '%')</if>
+            <if test="status != null"> and `order`.status = #{status}</if>
+        </where>
+        order by `order`.id desc
+    </select>
+
+    <select id="selectById" resultType="com.example.entity.Order">
+        select * from `order` where id = #{id}
+    </select>
+
+    <select id="selectItemsByOrderId" resultType="com.example.entity.OrderItem">
+        select * from `order_item` where order_id = #{orderId}
+    </select>
+
+    <delete id="deleteById">
+        delete from `order` where id = #{id}
+    </delete>
+
+    <delete id="deleteItemsByOrderId">
+        delete from `order_item` where order_id = #{orderId}
+    </delete>
+
+    <insert id="insertOrder" parameterType="com.example.entity.Order" useGeneratedKeys="true" keyProperty="id">
+        insert into `order`(order_no, user_id, total, status, time)
+        values (#{orderNo}, #{userId}, #{total}, #{status}, #{time})
+    </insert>
+
+    <insert id="insertOrderItem" parameterType="com.example.entity.OrderItem">
+        insert into `order_item`(order_id, goods_id, goods_name, goods_img, goods_price, num)
+        values (#{orderId}, #{goodsId}, #{goodsName}, #{goodsImg}, #{goodsPrice}, #{num})
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Order">
+        update `order`
+        <set>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
