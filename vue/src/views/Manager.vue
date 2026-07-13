@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div>
     <div style="height: 60px; background-color: #2e3143; display: flex; align-items: center; border-bottom: 1px solid #ddd">
       <div style="flex: 1">
@@ -57,6 +57,10 @@
             <el-menu-item index="/manager/order">
               <el-icon><User /></el-icon>
               <span>订单管理</span>
+            </el-menu-item>
+            <el-menu-item index="/manager/statistics">
+              <el-icon><DataAnalysis /></el-icon>
+              <span>数据统计</span>
             </el-menu-item>
             <el-menu-item index="/manager/recharge">
               <el-icon><User /></el-icon>

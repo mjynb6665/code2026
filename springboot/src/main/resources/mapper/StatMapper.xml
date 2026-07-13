@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.StatMapper">
+
+    <select id="overview" resultType="java.util.Map">
+        select
+            count(*) as totalOrders,
+            coalesce(sum(total), 0) as totalSales,
+            coalesce(round(avg(total), 2), 0) as avgOrder,
+            coalesce(sum(case when status = '已完成' then total else 0 end), 0) as completedSales,
+            count(case when status = '已完成' then 1 end) as completedOrders
+        from `order`
+    </select>
+
+    <select id="dailyTrend" resultType="java.util.Map">
+        select
+            date_format(time, '%Y-%m-%d') as dateKey,
+            count(*) as orderCount,
+            coalesce(sum(total), 0) as sales
+        from `order`
+        where time >= date_sub(curdate(), interval #{days} day)
+          and status not in ('已取消', '待付款')
+        group by date_format(time, '%Y-%m-%d')
+        order by dateKey
+    </select>
+
+    <select id="monthlyTrend" resultType="java.util.Map">
+        select
+            date_format(time, '%Y-%m') as dateKey,
+            count(*) as orderCount,
+            coalesce(sum(total), 0) as sales
+        from `order`
+        where time >= date_sub(curdate(), interval #{months} * 30 day)
+          and status not in ('已取消', '待付款')
+        group by date_format(time, '%Y-%m')
+        order by dateKey
+    </select>
+
+    <select id="categorySales" resultType="java.util.Map">
+        select
+            coalesce(c.name, '未分类') as name,
+            coalesce(sum(oi.goods_price * oi.num), 0) as sales,
+            count(distinct oi.order_id) as orderCount
+        from order_item oi
+        left join goods g on oi.goods_id = g.id
+        left join category c on g.category_id = c.id
+        left join `order` o on oi.order_id = o.id
+        where o.status not in ('已取消', '待付款')
+        group by c.id, c.name
+        order by sales desc
+    </select>
+
+    <select id="topGoods" resultType="java.util.Map">
+        select
+            g.id as goodsId,
+            g.name as goodsName,
+            g.img as goodsImg,
+            coalesce(g.sale_count, 0) as saleCount,
+            coalesce(sum(oi.goods_price * oi.num), 0) as totalSales
+        from goods g
+        left join order_item oi on g.id = oi.goods_id
+        left join `order` o on oi.order_id = o.id and o.status not in ('已取消', '待付款')
+        group by g.id, g.name, g.img, g.sale_count
+        order by saleCount desc
+        limit #{limit}
+    </select>
+
+    <select id="userCount" resultType="java.lang.Long">
+        select count(*) from user
+    </select>
+
+</mapper>
