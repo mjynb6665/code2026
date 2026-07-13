@@ -45,6 +45,7 @@
 
             <el-dropdown-item @click="personal">个人中心</el-dropdown-item>
             <el-dropdown-item @click="router.push('/front/userRecharge')">我的充值</el-dropdown-item>
+            <el-dropdown-item @click="router.push('/front/order')">我的订单</el-dropdown-item>
             <el-dropdown-item @click="router.push('/front/userCollect')">我的收藏</el-dropdown-item>
             <el-dropdown-item @click="router.push('/front/password')">修改密码</el-dropdown-item>
 

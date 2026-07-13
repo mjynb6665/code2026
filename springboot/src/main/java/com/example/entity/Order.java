@@ -15,7 +15,7 @@ public class Order {
     private String userName;
     /** 总金额 */
     private BigDecimal total;
-    /** 状态：待付款、已付款、已取消 */
+    /** 状态：待付款、已付款、已发货、已完成、已取消 */
     private String status;
     /** 创建时间 */
     private String time;

@@ -41,6 +41,18 @@ public class OrderController {
         return Result.success(order);
     }
 
+    
+    /**
+     * 更新订单状态（发货/完成/取消）
+     */
+    @PutMapping("/updateStatus")
+    public Result updateStatus(@RequestBody Map<String, Object> params) {
+        Integer id = (Integer) params.get("id");
+        String status = (String) params.get("status");
+        orderService.updateStatus(id, status);
+        return Result.success();
+    }
+
     @DeleteMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
         orderService.deleteById(id);

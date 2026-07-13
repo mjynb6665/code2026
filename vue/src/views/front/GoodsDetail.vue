@@ -1,4 +1,3 @@
-
 <template>
 
   <div class="front-container" style="width:  50%">
@@ -17,7 +16,6 @@
             <el-icon style="position: relative; top: 3px" size="18"><StarFilled /></el-icon>取消收藏
           </div>
         </div>
-          <!--第二行-->
         <div style="margin-bottom:20px; margin-top:20px ">
           <span style="color: red; font-size: 18px">￥</span><b style="color: red; font-size: 25px;">{{data.goods.price}}</b>
           <span style="color: #666; margin-left: 20px">累计销量{{data.goods.saleCount}}</span>
@@ -27,9 +25,9 @@
         <div style="margin-bottom: 20px">
           <el-input-number :min ="1" v-model="data.num" style="width: 150px; height: 40px"></el-input-number>
           <el-button @click="addCart" type="danger" style="height: 40px; margin-left: 20px" >加入购物车</el-button>
-          <el-button type="danger" style="height: 40px; margin-left: 20px">立即购买</el-button>
+          <el-button @click="buyNow" type="danger" style="height: 40px; margin-left: 20px">立即购买</el-button>
         </div>
-          <div style="mairgin-top: 20px; color: #666">校园小卖部售卖的商品，由小卖部客服人员会及时处理，请放心购买</div>
+        <div style="mairgin-top: 20px; color: #666">校园小卖部售卖的商品，由小卖部客服人员会及时处理，请放心购买</div>
       </div>
     </div>
     <div class="card" style="padding: 20px; margin-bottom: 50px">
@@ -39,21 +37,37 @@
       </div>
       <div style="padding: 10px" v-html="data.goods.content" v-if="data.current === '商品详情'"></div>
       <div v-if="data.current === '商品评论'" style="min-height: 500px">
-        <div v-if="data.commentList.length === 0" style="padding : 50px; text-align: center">暂无评论</div>
-        <div v-if="data.commentList.length > 0" style="padding : 20px; text-align: center">
-          <!--          评论-->
+        <!-- 评论表单 -->
+        <div style="padding: 20px; border-bottom: 1px solid #eee">
+          <div style="font-size: 16px; font-weight: bold; margin-bottom: 10px">发表评论</div>
+          <div style="margin-bottom: 10px">
+            <span style="margin-right: 10px">评分：</span>
+            <el-rate v-model="data.commentForm.rating" :max="5" />
+          </div>
+          <el-input v-model="data.commentForm.content" type="textarea" :rows="3" placeholder="请输入您的评价..." style="margin-bottom: 10px"></el-input>
+          <el-button type="danger" @click="submitComment">提交评论</el-button>
         </div>
 
+        <!-- 评论列表 -->
+        <div v-if="data.commentList.length === 0" style="padding: 50px; text-align: center; color: #999">暂无评论，快来第一个评价吧！</div>
+        <div v-else style="padding: 10px 20px">
+          <div v-for="item in data.commentList" :key="item.id" style="padding: 15px 0; border-bottom: 1px solid #f0f0f0">
+            <div style="display: flex; align-items: center; margin-bottom: 8px">
+              <img :src="item.userAvatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" style="width: 36px; height: 36px; border-radius: 50%; margin-right: 10px">
+              <span style="font-weight: 500; margin-right: 15px">{{ item.userName }}</span>
+              <el-rate v-model="item.rating" disabled show-score text-color="#ff9900" />
+              <span style="margin-left: auto; color: #999; font-size: 13px">{{ item.time }}</span>
+            </div>
+            <div style="margin-left: 46px; color: #333; line-height: 1.6">{{ item.content }}</div>
+          </div>
+        </div>
 
       </div>
 
     </div>
   </div>
 
-
 </template>
-
-
 
 <script setup>
 import {reactive} from "vue";
@@ -67,9 +81,15 @@ const data = reactive({
   current: '商品详情',
   id: router.currentRoute.value.query.id,
   commentList: [],
+  commentForm: { rating: 5, content: '' },
   userCollect: {},
 })
-//当前商品是否被当前登录的用户收藏过
+
+const changeTab = (current) => {
+  data.current = current
+}
+
+// 当前商品是否被当前登录的用户收藏过
 const loadCollect= () =>{
   request.get('/collect/selectAll' , {
     params: {
@@ -86,7 +106,6 @@ const loadCollect= () =>{
 }
 loadCollect()
 
-
 const addCart = () =>{
   request.post('/cart/add', {goodsId: data.id, userId: data.user.id, num: data.num}).then(res => {
     if(res.code === '200'){
@@ -94,6 +113,54 @@ const addCart = () =>{
     }else{
       ElMessage.error(res.msg)
     }
+  })
+}
+
+// 立即购买
+const buyNow = () => {
+  request.post('/order/createDirect', {
+    userId: data.user.id,
+    goodsId: data.id,
+    num: data.num
+  }).then(res => {
+    if (res.code === '200') {
+      ElMessage.success('购买成功')
+      router.push('/front/order')
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+// 提交评论
+const submitComment = () => {
+  if (!data.commentForm.content.trim()) {
+    ElMessage.warning('请输入评论内容')
+    return
+  }
+  request.post('/comment/add', {
+    goodsId: data.id,
+    userId: data.user.id,
+    content: data.commentForm.content,
+    rating: data.commentForm.rating
+  }).then(res => {
+    if (res.code === '200') {
+      ElMessage.success('评论发表成功')
+      data.commentForm.content = ''
+      data.commentForm.rating = 5
+      loadComments()
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+// 加载评论列表
+const loadComments = () => {
+  request.get('/comment/selectAll', {
+    params: { goodsId: data.id }
+  }).then(res => {
+    data.commentList = res.data || []
   })
 }
 
@@ -108,7 +175,6 @@ const removeCollect = () =>{
 
   })
 }
-
 
 const addCollect=() =>{
   request.post('/collect/add', {goodsId: data.id, userId:data.user.id }).then(res => {
@@ -127,13 +193,8 @@ const load = () =>{
   })
 }
 load();
-
-const changeTab = (current) => {
-  data.current = current
-}
+loadComments();
 </script>
-
-
 
 <style scoped>
 .current-active {

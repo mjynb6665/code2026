@@ -162,6 +162,17 @@ public class OrderService {
         return order;
     }
 
+    
+    /**
+     * 更新订单状态
+     */
+    public void updateStatus(Integer id, String status) {
+        Order order = new Order();
+        order.setId(id);
+        order.setStatus(status);
+        orderMapper.updateById(order);
+    }
+
     public void deleteById(Integer id) {
         orderMapper.deleteItemsByOrderId(id);
         orderMapper.deleteById(id);

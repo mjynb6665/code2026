@@ -9,7 +9,7 @@
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
         <img style="width: 40px; height: 40px; border-radius: 50%" :src="data.user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="">
-        <span style="color: #fff; margin-left: 5px">{{ data.user.name || '代码小白' }}</span>
+        <span style="color: #fff; margin-left: 5px">{{ data.user.name }}</span>
       </div>
     </div>
 
@@ -50,6 +50,14 @@
               <span>用户收藏</span>
             </el-menu-item>
 
+            <el-menu-item index="/manager/comment">
+              <el-icon><User /></el-icon>
+              <span>评论管理</span>
+            </el-menu-item>
+            <el-menu-item index="/manager/order">
+              <el-icon><User /></el-icon>
+              <span>订单管理</span>
+            </el-menu-item>
             <el-menu-item index="/manager/recharge">
               <el-icon><User /></el-icon>
               <span>用户充值</span>

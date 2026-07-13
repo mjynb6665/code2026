@@ -1,4 +1,4 @@
-﻿import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +19,8 @@ const router = createRouter({
         {path:'carousel',component: () => import('@/views/manager/Carousel.vue')},
         {path:'collect',component: () => import('@/views/manager/Collect.vue')},
         {path:'recharge',component: () => import('@/views/manager/Recharge.vue')},
+        {path:'order',component: () => import('@/views/manager/Order.vue')},
+        {path:'comment',component: () => import('@/views/manager/Comment.vue')},
 
 
       ]
@@ -36,6 +38,7 @@ const router = createRouter({
         {path: 'userCollect', component: () => import('@/views/front/UserCollect.vue')},
         {path: 'userRecharge', component: () => import('@/views/front/userRecharge.vue')},
         {path: 'cart', component: () => import('@/views/front/Cart.vue')},
+        {path: 'order', component: () => import('@/views/front/Order.vue')},
 
       ]
     },
