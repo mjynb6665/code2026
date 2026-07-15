@@ -1,6 +1,6 @@
-<template>
+﻿<template>
   <div class="front-container">
-<!--  第一行  -->
+<!-- 第一行 -->
     <div style="display: flex ;grid-gap: 20px">
       <div style="flex:1">
       <el-carousel trigger="click" height="400px">
@@ -19,13 +19,13 @@
             <img style="width: 65px; height: 65px" :src="item.img" alt="">
             <div>
             <div class="line2">{{item.name}}</div>
-            <div><span style="color: red">￥</span><b style="color: red; font-weight: bold">{{item.price}}</b></div>
+            <div><span style="color: red">¥</span><b style="color: red; font-weight: bold">{{item.price}}</b></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--  第二行  -->
+    <!-- 第二行 -->
     <div class="card" style="margin-top: 20px ; padding:20px" >
       <div style="display: flex; align-items: center; padding-bottom: 5px; border-bottom: 1px solid red; margin-bottom: 10px" >
         <div style="flex: 1; display: flex; align-items: center">
@@ -43,7 +43,7 @@
             <img  :src="item.img" alt="" style="width: 100%; height: 260px; border-radius: 5px 5px 0 0" >
             <div style="padding: 5px">
               <div class="line1" style="font-size: 16px">{{item.name}}</div>
-              <div> <span style="color: red">￥</span><b style="color: red; font-weight: bold; font-size: 16px">{{item.price}}</b>
+              <div> <span style="color: red">¥</span><b style="color: red; font-weight: bold; font-size: 16px">{{item.price}}</b>
               <span style="margin-left: 10px; color: #666">销量：{{item.saleCount}}件</span>
               </div>
             </div>
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <!--  第三行  -->
+    <!-- 第三行 -->
     <div class="card" style="margin-top: 20px ; padding:20px" >
       <div style="display: flex; align-items: center; padding-bottom: 5px; border-bottom: 1px solid red; margin-bottom: 10px" >
         <div style="flex: 1; display: flex; align-items: center">
@@ -71,7 +71,7 @@
               <img  :src="item.img" alt="" style="width: 100%; height: 260px; border-radius: 5px 5px 0 0" >
               <div style="padding: 5px">
                 <div class="line1" style="font-size: 16px">{{item.name}}</div>
-                <div> <span style="color: red">￥</span><b style="color: red; font-weight: bold; font-size: 16px">{{item.price}}</b>
+                <div> <span style="color: red">¥</span><b style="color: red; font-weight: bold; font-size: 16px">{{item.price}}</b>
                   <span style="margin-left: 10px; color: #666">销量：{{item.saleCount}}件</span>
                 </div>
               </div>

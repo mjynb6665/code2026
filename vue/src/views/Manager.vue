@@ -1,25 +1,44 @@
 ﻿<template>
   <div>
-    <div style="height: 60px; background-color: #2e3143; display: flex; align-items: center; border-bottom: 1px solid #ddd">
-      <div style="flex: 1">
-        <div style="padding-left: 20px; display: flex; align-items: center">
-          <img src="@/assets/imgs/logo.png" alt="" style="width: 40px">
-          <div style="font-weight: bold; font-size: 24px; margin-left: 5px; color: #fff">小白2026</div>
+    <header class="manager-header">
+      <div class="header-inner">
+        <div class="header-logo" @click="router.push('/manager/home')">
+          <img src="@/assets/imgs/logo.png" alt="logo" class="logo-img" />
+          <span class="logo-text">小白2026</span>
+          <span class="logo-badge">管理后台</span>
+        </div>
+        <div class="header-right">
+          <el-dropdown trigger="click" class="user-dropdown">
+            <div class="user-trigger">
+              <el-avatar :size="36" :src="data.user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
+              <span class="user-name">{{ data.user.name || '管理员' }}</span>
+              <el-icon class="arrow-icon"><ArrowDown /></el-icon>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item @click="router.push('/manager/person')">
+                  <el-icon><User /></el-icon> 个人信息
+                </el-dropdown-item>
+                <el-dropdown-item @click="router.push('/manager/password')">
+                  <el-icon><Lock /></el-icon> 修改密码
+                </el-dropdown-item>
+                <el-dropdown-item divided @click="logout">
+                  <el-icon><SwitchButton /></el-icon> 退出系统
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </div>
-      <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
-        <img style="width: 40px; height: 40px; border-radius: 50%" :src="data.user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" alt="">
-        <span style="color: #fff; margin-left: 5px">{{ data.user.name }}</span>
-      </div>
-    </div>
+    </header>
 
     <div style="display: flex">
-      <div style="width: 200px; border-right: 1px solid #ddd; min-height: calc(100vh - 60px)">
+      <aside class="manager-sidebar">
         <el-menu
-            router
-            style="border: none"
-            :default-active="router.currentRoute.value.path"
-            :default-openeds="['user']"
+          router
+          class="sidebar-menu"
+          :default-active="router.currentRoute.value.path"
+          :default-openeds="['info', 'user']"
         >
           <el-menu-item index="/manager/home">
             <el-icon><HomeFilled /></el-icon>
@@ -32,30 +51,27 @@
               <span>信息管理</span>
             </template>
             <el-menu-item index="/manager/category">
-              <el-icon><User /></el-icon>
+              <el-icon><Grid /></el-icon>
               <span>商品分类</span>
             </el-menu-item>
             <el-menu-item index="/manager/goods">
-              <el-icon><User /></el-icon>
+              <el-icon><Goods /></el-icon>
               <span>商品信息</span>
             </el-menu-item>
-
             <el-menu-item index="/manager/carousel">
-              <el-icon><User /></el-icon>
-              <span>轮播图信息管理</span>
+              <el-icon><PictureFilled /></el-icon>
+              <span>轮播图管理</span>
             </el-menu-item>
-
             <el-menu-item index="/manager/collect">
-              <el-icon><User /></el-icon>
+              <el-icon><Star /></el-icon>
               <span>用户收藏</span>
             </el-menu-item>
-
             <el-menu-item index="/manager/comment">
-              <el-icon><User /></el-icon>
+              <el-icon><ChatLineSquare /></el-icon>
               <span>评论管理</span>
             </el-menu-item>
             <el-menu-item index="/manager/order">
-              <el-icon><User /></el-icon>
+              <el-icon><Document /></el-icon>
               <span>订单管理</span>
             </el-menu-item>
             <el-menu-item index="/manager/statistics">
@@ -63,11 +79,10 @@
               <span>数据统计</span>
             </el-menu-item>
             <el-menu-item index="/manager/recharge">
-              <el-icon><User /></el-icon>
+              <el-icon><Wallet /></el-icon>
               <span>用户充值</span>
             </el-menu-item>
           </el-sub-menu>
-
 
           <el-sub-menu index="user">
             <template #title>
@@ -75,21 +90,21 @@
               <span>用户管理</span>
             </template>
             <el-menu-item index="/manager/admin">
-              <el-icon><User /></el-icon>
+              <el-icon><UserFilled /></el-icon>
               <span>管理员信息</span>
             </el-menu-item>
             <el-menu-item index="/manager/user">
-              <el-icon><User /></el-icon>
+              <el-icon><Avatar /></el-icon>
               <span>普通用户</span>
             </el-menu-item>
           </el-sub-menu>
 
           <el-menu-item index="/manager/person">
-            <el-icon><User/></el-icon>
+            <el-icon><User /></el-icon>
             <span>个人信息</span>
           </el-menu-item>
-          <el-menu-item index="/manager/Password">
-            <el-icon><User/></el-icon>
+          <el-menu-item index="/manager/password">
+            <el-icon><Lock /></el-icon>
             <span>修改密码</span>
           </el-menu-item>
 
@@ -97,22 +112,20 @@
             <el-icon><SwitchButton /></el-icon>
             <span>退出系统</span>
           </el-menu-item>
-
         </el-menu>
+      </aside>
 
-      </div>
-      <div style="flex: 1; width: 0; background-color: #f8f8ff; padding: 10px">
+      <div style="flex: 1; width: 0; background-color: #f5f5f7; padding: 20px">
         <router-view @updateUser="updateUser" />
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import router from "@/router";
-import {ElMessage} from "element-plus";
+import { reactive } from 'vue'
+import router from '@/router'
+import { ElMessage } from 'element-plus'
 
 const data = reactive({
   user: JSON.parse(localStorage.getItem('system-user') || '{}')
@@ -128,17 +141,137 @@ const updateUser = () => {
 }
 
 const logout = () => {
-  router.push('/login')
-  ElMessage.success('退出成功')
   localStorage.removeItem('system-user')
+  ElMessage.success('退出成功')
+  router.push('/login')
 }
 </script>
 
 <style scoped>
-.el-menu-item.is-active {
-  background-color: #d7d7e6 !important;
+.manager-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
-.el-menu-item:hover {
-  color: #000;
+
+.manager-header .header-inner {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 24px;
+}
+
+.manager-header .header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.manager-header .logo-img {
+  width: 32px;
+  height: 32px;
+}
+
+.manager-header .logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 1px;
+}
+
+.logo-badge {
+  font-size: 12px;
+  color: #4361ee;
+  background: #eef0fd;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.manager-header .header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-dropdown {
+  cursor: pointer;
+}
+
+.user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  border-radius: 22px;
+  transition: background 0.2s;
+}
+
+.user-trigger:hover {
+  background: #f5f5f6;
+}
+
+.user-name {
+  font-size: 14px;
+  color: #333;
+}
+
+.arrow-icon {
+  font-size: 12px;
+  color: #999;
+}
+
+.manager-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #eee;
+  min-height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+
+.sidebar-menu {
+  border-right: none !important;
+  padding: 8px 0;
+}
+
+.sidebar-menu :deep(.el-menu-item) {
+  height: 44px;
+  line-height: 44px;
+  font-size: 14px;
+  color: #555;
+  padding-left: 28px !important;
+}
+
+.sidebar-menu :deep(.el-menu-item:hover) {
+  color: #4361ee;
+  background: #f5f5f7;
+}
+
+.sidebar-menu :deep(.el-menu-item.is-active) {
+  color: #4361ee;
+  background: #eef0fd;
+  font-weight: 600;
+}
+
+.sidebar-menu :deep(.el-sub-menu__title) {
+  height: 44px;
+  line-height: 44px;
+  font-size: 14px;
+  color: #555;
+  padding-left: 28px !important;
+}
+
+.sidebar-menu :deep(.el-sub-menu__title:hover) {
+  color: #4361ee;
+}
+
+.sidebar-menu :deep(.el-sub-menu .el-menu-item) {
+  padding-left: 52px !important;
 }
 </style>
