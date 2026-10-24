@@ -19,14 +19,6 @@ public class WebController {
     private UserService userService;
 
     /**
-     * 默认请求接口
-     */
-    @GetMapping("/")
-    public Result hello() {
-        return Result.success();
-    }
-
-    /**
      * 登录
      */
     @PostMapping("/login")

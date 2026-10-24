@@ -4,7 +4,7 @@
       <div class="header-inner">
         <div class="header-logo" @click="router.push('/manager/home')">
           <img src="@/assets/imgs/logo.png" alt="logo" class="logo-img" />
-          <span class="logo-text">小白2026</span>
+          <span class="logo-text">小卖部</span>
           <span class="logo-badge">管理后台</span>
         </div>
         <div class="header-right">

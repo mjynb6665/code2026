@@ -79,7 +79,8 @@ const load = () => {
       pageNum: data.pageNum,
       pageSize: data.pageSize,
       name: data.name,
-      categoryId: data.categoryId
+      categoryId: data.categoryId,
+      status: data.status
     }
   }).then(res => {
     data.tableData = res.data?.list

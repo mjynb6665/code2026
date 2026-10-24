@@ -218,7 +218,8 @@ const view = (content) => {
 }
 const  updateRecommend=(row)=>{
   data.form.id = row.id
-  data.form.recommend =row.recommendActive ? '是': '否';
+  data.form.recommend = row.recommendActive ? '是': '否';
+  data.form.status = row.status;
   update();
 }
 

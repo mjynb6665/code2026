@@ -4,7 +4,7 @@
       <div class="header-inner">
         <div class="header-logo" @click="router.push('/front/home')">
           <img src="@/assets/imgs/logo.png" alt="logo" class="logo-img" />
-          <span class="logo-text">校园小卖部</span>
+          <span class="logo-text">校园商城</span>
         </div>
         <nav class="header-nav">
           <el-menu

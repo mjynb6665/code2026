@@ -2,14 +2,13 @@
   <div>
 
     <div class="card" style="line-height: 30px; margin-bottom: 10px">
-      <div style="margin-bottom: 20px; font-size: 24px">小白/div>
       <div>技术栈：SpringBoot3 + Vue3 + MySQL，前后端分离</div>
     </div>
 
 
 
   </div>
-    </div>
+
 </template>
 
 <script setup>
